@@ -240,3 +240,7 @@ XlsxWriter==3.1.0
 yarl==1.8.2
 zipp==3.15.0
 gunicorn
+pywin32==305  # หากต้องการใช้ pywin32
+numpy>=1.24.0  # อัปเดต numpy ให้เข้ากับ Python 3.11
+pandas>=2.0.0  # อัปเดต pandas ให้เข้ากับ Python 3.11
+requests>=2.28.0  # อัปเดต requests ให้เข้ากับ Python 3.11
