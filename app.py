@@ -3,12 +3,14 @@ from dash import Dash, html, dcc
 
 # สร้างแอปและเปิดใช้งานระบบ multi-page ด้วย Dash Pages
 app = Dash(__name__, use_pages=True)
-server = app.server
 
 links = {
-    '/w1p1': 'Overall Participants info.​',
-    '/w1p2': 'Assumptions check',
-    '/w1p3': 'Add performance Rating into data​',
+    '/w1p1': 'Overall Participants info.',
+    '/w1p2-p1': 'Assumptions check : Sankey',
+    '/w1p2-p2': 'Assumtion check : Job field by level',
+    '/w1p3-p1': 'Add performance Rating into data : Job list VS Total score',
+    '/w1p3-p2': 'Add performance Rating into data : Interview round'
+    
 }
 
 # เพิ่มลิงก์สำหรับ Workshop 2
