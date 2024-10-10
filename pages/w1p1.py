@@ -135,15 +135,15 @@ dash.register_page(__name__, suppress_callback_exceptions=True)
 
 layout = html.Div([
     html.Div([
-        html.H4('Industry Portion on Pie'),
+        # html.H4('Industry Portion on Pie'),
         dcc.Loading(dcc.Graph(id="pie-chart-1"), type="cube")
     ]),
     html.Div([
-        html.H4('Level Portion on Pie'),
+        # html.H4('Level Portion on Pie'),
         dcc.Loading(dcc.Graph(id="pie-chart-2"), type="cube")
     ]),
     html.Div([
-        html.H4('Current Job Portion on Pie'),
+        # html.H4('Current Job Portion on Pie'),
         dcc.Loading(dcc.Graph(id="pie-chart-3"), type="cube")
     ])
 ])
@@ -166,7 +166,7 @@ def plot_pie_chart_1(_):
         textfont=dict(size=16)
     )
 
-    fig.update_layout(title_text='Industry Portion on Pie')
+    fig.update_layout(title_text='Participant industry mix')
 
     return fig
 
@@ -188,7 +188,7 @@ def plot_pie_chart_2(_):
         textfont=dict(size=16)
     )
 
-    fig.update_layout(title_text='Level Portion on Pie')
+    fig.update_layout(title_text='Participant job band mix')
 
     return fig
 
@@ -210,6 +210,6 @@ def plot_pie_chart_3(_):
         textfont=dict(size=16)
     )
 
-    fig.update_layout(title_text='Current Job Portion on Pie')
+    fig.update_layout(title_text='Participant job role mix')
 
     return fig

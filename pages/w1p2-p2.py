@@ -68,7 +68,7 @@ layout = html.Div([
     # ],style={'marginBottom': '25px'}),
 
     html.Div([
-        html.H4('List all job field that you had been work on till now'),
+        # html.H4('List all job field that you had been work on till now'),
         # dcc.Graph(id='bar-chart-listalljob'),
         dcc.Loading(dcc.Graph(id="bar-chart-listalljob"), type="cube")
     ],style={'marginBottom': '25px'})
@@ -149,6 +149,12 @@ layout = html.Div([
 def update_bar_chart_laj(_):
     # สร้างข้อมูลใหม่โดยจัดกลุ่มตาม number_of_jobs และ Level
     bar_data = df.groupby(['number_of_jobs', 'Level']).size().reset_index(name='participant_count')
+        # ลำดับของ Level ที่ต้องการ
+    level_order = ['Senior Officer', 'Middle Management', 'Top Management']
+
+    # จัดเรียงตามลำดับที่ต้องการ
+    bar_data['Level'] = pd.Categorical(bar_data['Level'], categories=level_order, ordered=True)
+    bar_data = bar_data.sort_values('Level')
 
     # สร้างกราฟแท่งซ้อน
     fig = go.Figure()
@@ -172,7 +178,9 @@ def update_bar_chart_laj(_):
         yaxis_title="Number of Participants",
         barmode='stack',  # เปลี่ยนให้เป็นแบบ stacked
         bargap=0.2,  # ปรับระยะห่างระหว่างแท่ง
-        bargroupgap=0.1  # ปรับระยะห่างระหว่างกลุ่มแท่ง (ถ้ามีหลายกลุ่ม)
+        bargroupgap=0.1,  # ปรับระยะห่างระหว่างกลุ่มแท่ง (ถ้ามีหลายกลุ่ม)
+        legend_title="Level",
+        legend_traceorder="reversed"  # กลับลำดับใน legend
     )
     
     # ตั้งค่าแกน x ให้แสดงเฉพาะจำนวนเต็ม

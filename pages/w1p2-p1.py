@@ -50,7 +50,7 @@ link_dict = {
 # กำหนด layout ของหน้า w1p2
 layout = html.Div([
     html.Div([
-        html.H4('Sankey Diagram'),
+        # html.H4('Sankey Diagram'),
         # dcc.Graph(id='sankey-graph'),
         dcc.Loading(dcc.Graph(id="sankey-graph"), type="cube")
     ], style={'marginBottom': '25px'}),
@@ -93,7 +93,7 @@ def update_sankey(_):
             value=link_dict['value'],
         )
     ))
-    fig.update_layout(title_text="Sankey Diagram", font_size=15)
+    fig.update_layout(title_text="Sankey Diagram", font_size=12)
     return fig
 
 # # Callback สำหรับ Pie Chart

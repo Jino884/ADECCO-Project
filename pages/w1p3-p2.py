@@ -87,8 +87,8 @@ layout = html.Div([
 #     return fig
 
 @dash.callback(
-    Output('interview', 'figure'),  # ต้องมี ID ที่ตรงกันใน layout
-    Input('interview', 'id')  # แก้ไขที่นี่
+    Output('interview', 'figure'),
+    Input('interview', 'id')
 )
 def bar_interview_round(_):
     # สร้าง DataFrame ที่เก็บข้อมูลการนับผู้เข้าร่วมตามกระบวนการสัมภาษณ์และระดับ
@@ -96,11 +96,18 @@ def bar_interview_round(_):
         ["Please list all the process you have been through along the application of your current position : Interview", "Level"]
     ).size().reset_index(name='participant_count')
 
+    # ลำดับของ Level ที่ต้องการ
+    level_order = ['Senior Officer', 'Middle Management', 'Top Management']
+
+    # จัดเรียงตามลำดับที่ต้องการ
+    bar_data['Level'] = pd.Categorical(bar_data['Level'], categories=level_order, ordered=True)
+    bar_data = bar_data.sort_values('Level')
+
     # สร้างกราฟ Bar โดยใช้ Plotly
     fig = go.Figure()
 
     # เพิ่ม bar แต่ละ Level ลงใน fig
-    for level in bar_data['Level'].unique():
+    for level in level_order:
         filtered_data = bar_data[bar_data['Level'] == level]
         fig.add_trace(go.Bar(
             x=filtered_data["Please list all the process you have been through along the application of your current position : Interview"],
@@ -115,7 +122,20 @@ def bar_interview_round(_):
         title_text="Interview Round",
         xaxis_title='Number of interview round',
         yaxis_title="Number of participant",
-        barmode='stack'  # ตั้งค่าให้เป็น stacked bar
+        barmode='stack',  # ตั้งค่าให้เป็น stacked bar
+        legend_title="Level",
+        legend_traceorder="reversed"  # กลับลำดับใน legend
     )
-    fig.update_xaxes(tickvals=list(range(0, int(bar_data['Please list all the process you have been through along the application of your current position : Interview'].max()) + 1)), tickmode='array')
+
+    # เรียงลำดับ x-axis และ legend ให้ตรงกับ level_order
+    fig.update_layout(
+        xaxis={'categoryorder': 'array', 'categoryarray': bar_data["Please list all the process you have been through along the application of your current position : Interview"].unique()}
+    )
+    
+    # กำหนดให้แกน x เป็นจำนวนเต็ม
+    fig.update_xaxes(
+        tickvals=list(range(int(bar_data["Please list all the process you have been through along the application of your current position : Interview"].min()), 
+                            int(bar_data["Please list all the process you have been through along the application of your current position : Interview"].max()) + 1)),
+        tickmode='array'
+    )
     return fig
