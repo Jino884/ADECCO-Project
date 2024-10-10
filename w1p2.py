@@ -55,17 +55,17 @@ layout = html.Div([
         dcc.Loading(dcc.Graph(id="sankey-graph"), type="cube")
     ], style={'marginBottom': '25px'}),
 
-    html.Div([
-        html.H4('Industry Distribution'),
-        # dcc.Graph(id='industry-pie-chart')
-        dcc.Loading(dcc.Graph(id="industry-pie-chart"), type="cube")
-    ],style={'marginBottom': '25px'}),
+    # html.Div([
+    #     html.H4('Industry Distribution'),
+    #     # dcc.Graph(id='industry-pie-chart')
+    #     dcc.Loading(dcc.Graph(id="industry-pie-chart"), type="cube")
+    # ],style={'marginBottom': '25px'}),
 
-    html.Div([
-        html.H4('BarChart of Year of Service (HR)'),
-        # dcc.Graph(id='bar-chart-YOS'),
-        dcc.Loading(dcc.Graph(id="bar-chart-YOS"), type="cube")
-    ],style={'marginBottom': '25px'}),
+    # html.Div([
+    #     html.H4('BarChart of Year of Service (HR)'),
+    #     # dcc.Graph(id='bar-chart-YOS'),
+    #     dcc.Loading(dcc.Graph(id="bar-chart-YOS"), type="cube")
+    # ],style={'marginBottom': '25px'}),
 
     html.Div([
         html.H4('List all job field that you had been work on till now'),
@@ -96,50 +96,50 @@ def update_sankey(_):
     fig.update_layout(title_text="Sankey Diagram", font_size=15)
     return fig
 
-# Callback สำหรับ Pie Chart
-@dash.callback(
-    dash.Output('industry-pie-chart', 'figure'),
-    dash.Input('industry-pie-chart', 'id')
-)
-def update_pie_chart(_):
-    fig = px.pie(df, names='field of your degree', title='Distribution of Industries')
+# # Callback สำหรับ Pie Chart
+# @dash.callback(
+#     dash.Output('industry-pie-chart', 'figure'),
+#     dash.Input('industry-pie-chart', 'id')
+# )
+# def update_pie_chart(_):
+#     fig = px.pie(df, names='field of your degree', title='Distribution of Industries')
 
-    fig.update_traces(
-        textposition='outside', 
-        textinfo='percent+label', 
-        textfont=dict(size=16))  # กำหนดขนาดฟอนต์ของ data label
+#     fig.update_traces(
+#         textposition='outside', 
+#         textinfo='percent+label', 
+#         textfont=dict(size=16))  # กำหนดขนาดฟอนต์ของ data label
 
-    fig.update_layout(
-        title_text='Distribution of Industries')
-    return fig
+#     fig.update_layout(
+#         title_text='Distribution of Industries')
+#     return fig
 
-# Callback สำหรับ Bar Chart (HR)
-@dash.callback(
-    dash.Output('bar-chart-YOS', 'figure'),
-    dash.Input('bar-chart-YOS', 'id')
-)
-def update_bar_chart(_):
-    bar_data = df_hr.groupby("what was your current job field & year of experience : year of service").size().reset_index(name='participant_count')
+# # Callback สำหรับ Bar Chart (HR)
+# @dash.callback(
+#     dash.Output('bar-chart-YOS', 'figure'),
+#     dash.Input('bar-chart-YOS', 'id')
+# )
+# def update_bar_chart(_):
+#     bar_data = df_hr.groupby("what was your current job field & year of experience : year of service").size().reset_index(name='participant_count')
 
-    fig = go.Figure([go.Bar(
-        x=bar_data['what was your current job field & year of experience : year of service'],
-        y=bar_data['participant_count'],
-        text=bar_data['participant_count'],
-        textposition='auto',
-        textfont=dict(size=16),
-        width=0.5
+#     fig = go.Figure([go.Bar(
+#         x=bar_data['what was your current job field & year of experience : year of service'],
+#         y=bar_data['participant_count'],
+#         text=bar_data['participant_count'],
+#         textposition='auto',
+#         textfont=dict(size=16),
+#         width=0.5
 
-    )])
+#     )])
 
-    fig.update_layout(
-        title_text="Participants by Year of Service for only HR", 
-        xaxis_title="Year of Service", 
-        yaxis_title="Number of Participants",
-        bargap = 0.2,
-        bargroupgap=0.1
+#     fig.update_layout(
+#         title_text="Participants by Year of Service for only HR", 
+#         xaxis_title="Year of Service", 
+#         yaxis_title="Number of Participants",
+#         bargap = 0.2,
+#         bargroupgap=0.1
         
-        )
-    return fig
+#         )
+#     return fig
 
 # Callback สำหรับ Bar Chart (list of job field)
 @dash.callback(
@@ -147,22 +147,31 @@ def update_bar_chart(_):
     dash.Input('bar-chart-listalljob', 'id')
 )
 def update_bar_chart_laj(_):
-    bar_data = df.groupby("number_of_jobs").size().reset_index(name='participant_count')
+    # สร้างข้อมูลใหม่โดยจัดกลุ่มตาม number_of_jobs และ Level
+    bar_data = df.groupby(['number_of_jobs', 'Level']).size().reset_index(name='participant_count')
 
-    fig = go.Figure([go.Bar(
-        x=bar_data['number_of_jobs'],
-        y=bar_data['participant_count'],
-        text=bar_data['participant_count'],
-        textposition='auto',
-        width=0.5,
-        textfont=dict(size=16)
-    )])
+    # สร้างกราฟแท่งซ้อน
+    fig = go.Figure()
+
+    # เพิ่มแท่งสำหรับแต่ละ Level
+    for level in bar_data['Level'].unique():
+        level_data = bar_data[bar_data['Level'] == level]
+        fig.add_trace(go.Bar(
+            x=level_data['number_of_jobs'],
+            y=level_data['participant_count'],
+            name=level,
+            text=level_data['participant_count'],
+            textposition='auto',
+            width=0.5,
+            textfont=dict(size=16)
+        ))
 
     fig.update_layout(
-        title_text="List of job field", 
-        xaxis_title="Number of job field", 
+        title_text="List of Job Field by Level", 
+        xaxis_title="Number of Job Field", 
         yaxis_title="Number of Participants",
+        barmode='stack',  # เปลี่ยนให้เป็นแบบ stacked
         bargap=0.2,  # ปรับระยะห่างระหว่างแท่ง
         bargroupgap=0.1  # ปรับระยะห่างระหว่างกลุ่มแท่ง (ถ้ามีหลายกลุ่ม)
-        )
+    )
     return fig
