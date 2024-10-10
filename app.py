@@ -3,6 +3,7 @@ from dash import Dash, html, dcc, Input, Output
 
 # สร้างแอปและเปิดใช้งานระบบ multi-page ด้วย Dash Pages
 app = Dash(__name__, use_pages=True)
+server = app.server
 
 links = {
     '/w1p1': '1',
