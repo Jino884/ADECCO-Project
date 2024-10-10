@@ -3,12 +3,16 @@ from dash import Dash, html, dcc
 
 # สร้างแอปและเปิดใช้งานระบบ multi-page ด้วย Dash Pages
 app = Dash(__name__, use_pages=True)
-server = app.server
 
 links = {
     '/w1p1': 'Overall Participants info.​',
     '/w1p2': 'Assumptions check',
     '/w1p3': 'Add performance Rating into data​',
+}
+
+# เพิ่มลิงก์สำหรับ Workshop 2
+link_w2 = {
+    '/w2p1': 'Distribution Analysis'  # ชื่อที่คุณต้องการแสดงสำหรับ w2p1
 }
 
 # Layout หลักของแอป
@@ -45,12 +49,22 @@ app.layout = html.Div(
                     html.H3('For Adecco Client Event')
                 ]),
 
+                html.H3("Workshop1"),
                 # แสดงลิงก์สำหรับทุกหน้าที่มีในแอป
                 html.Div([
                     html.Div(
                         dcc.Link(links[page['relative_path']], href=page["relative_path"]),
                         style={'margin': '10px'}
-                    ) for page in dash.page_registry.values()
+                    ) for page in dash.page_registry.values() if page['relative_path'].startswith('/w1p')
+                ]),
+
+                html.H3('Workshop2'),
+                # แสดงลิงก์สำหรับหน้า w2p1
+                html.Div([
+                    html.Div(
+                        dcc.Link(link_w2[page['relative_path']], href=page["relative_path"]),
+                        style={'margin': '10px'}
+                    ) for page in dash.page_registry.values() if page['relative_path'].startswith('/w2p')
                 ]),
 
                 # แสดงเนื้อหาของหน้า
