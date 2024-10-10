@@ -168,10 +168,14 @@ def update_bar_chart_laj(_):
 
     fig.update_layout(
         title_text="List of Job Field by Level", 
-        xaxis_title="Number of Job Field", 
+        xaxis_title="Experienced", 
         yaxis_title="Number of Participants",
         barmode='stack',  # เปลี่ยนให้เป็นแบบ stacked
         bargap=0.2,  # ปรับระยะห่างระหว่างแท่ง
         bargroupgap=0.1  # ปรับระยะห่างระหว่างกลุ่มแท่ง (ถ้ามีหลายกลุ่ม)
     )
+    
+    # ตั้งค่าแกน x ให้แสดงเฉพาะจำนวนเต็ม
+    fig.update_xaxes(tickvals=list(range(0, int(bar_data['number_of_jobs'].max()) + 1)), tickmode='array')
+
     return fig

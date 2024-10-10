@@ -29,7 +29,7 @@ layout = html.Div([
     #     dcc.Loading(dcc.Graph(id="scatter-list-of-job"), type="cube")
     # ],style={'marginBottom': '25px'}),
     html.Div([
-        html.H4('Interview round VS Number of participant'),
+        # html.H4('Interview round VS Number of participant'),
         # dcc.Graph(id='interview')
         dcc.Loading(dcc.Graph(id="interview"), type="cube")
     ],style={'marginBottom': '25px'})
@@ -113,9 +113,9 @@ def bar_interview_round(_):
     # ปรับแต่ง layout ของกราฟ
     fig.update_layout(
         title_text="Interview Round",
-        xaxis_title='Number of Interview',
-        yaxis_title="Number of Participant",
+        xaxis_title='Number of interview round',
+        yaxis_title="Number of participant",
         barmode='stack'  # ตั้งค่าให้เป็น stacked bar
     )
-    fig.update_xaxes(type='linear')  # กำหนดแกน x เป็น linear
+    fig.update_xaxes(tickvals=list(range(0, int(bar_data['Please list all the process you have been through along the application of your current position : Interview'].max()) + 1)), tickmode='array')
     return fig

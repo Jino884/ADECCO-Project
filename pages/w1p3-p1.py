@@ -24,7 +24,7 @@ layout = html.Div([
     # ],style={'marginBottom': '25px'}),
 
     html.Div([
-        html.H4('Scatter Number of field'),
+        # html.H4('Scatter Number of field'),
         # dcc.Graph(id='scatter-list-of-job')
         dcc.Loading(dcc.Graph(id="scatter-list-of-job"), type="cube")
     ],style={'marginBottom': '25px'}),
@@ -78,9 +78,9 @@ def create_scatter_plot_loj(_):
         ))
 
     fig.update_layout(
-        title="Scatter Plot of Number of Job List vs Total Score",
-        xaxis_title="Number of Job List",
-        yaxis_title="Total Score",
+        # title="Scatter Plot of Number of Job List vs Total Score",
+        xaxis_title="Number of experienced job field",
+        yaxis_title="Performance rating",
         legend_title="Level"  # ชื่อ legend
     )
     
