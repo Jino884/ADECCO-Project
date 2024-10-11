@@ -166,7 +166,13 @@ def plot_pie_chart_1(_):
         textfont=dict(size=16)
     )
 
-    fig.update_layout(title_text='Participant industry mix')
+    fig.update_layout(
+        title_text='Participant industry mix',
+        font=dict(
+            family="Noto Sans Thai",
+            size=16)
+    )
+    
 
     return fig
 
@@ -188,7 +194,13 @@ def plot_pie_chart_2(_):
         textfont=dict(size=16)
     )
 
-    fig.update_layout(title_text='Participant job band mix')
+    fig.update_layout(
+        title_text='Participant job band mix',
+        font=dict(
+            family="Noto Sans Thai",
+            size=16
+    )
+    )
 
     return fig
 
@@ -210,6 +222,13 @@ def plot_pie_chart_3(_):
         textfont=dict(size=16)
     )
 
-    fig.update_layout(title_text='Participant job role mix')
+    fig.update_layout(
+        title_text='Participant job role mix',
+                font=dict(
+            family="Noto Sans Thai",
+            size=16
+                )
+    )
+        
 
     return fig

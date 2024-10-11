@@ -81,7 +81,11 @@ def create_scatter_plot_loj(_):
         # title="Scatter Plot of Number of Job List vs Total Score",
         xaxis_title="Number of experienced job field",
         yaxis_title="Performance rating",
-        legend_title="Level"  # ชื่อ legend
+        legend_title="Level" , # ชื่อ legend
+        font=dict(
+            family="Noto Sans Thai",
+            size=16
+    )
     )
     
     return fig

@@ -93,7 +93,14 @@ def update_sankey(_):
             value=link_dict['value'],
         )
     ))
-    fig.update_layout(title_text="Sankey Diagram", font_size=12)
+    fig.update_layout(
+        title_text="Sankey Diagram", 
+        # font_size=12,
+                font=dict(
+            family="Noto Sans Thai",
+            size=16
+                )
+        )
     return fig
 
 # # Callback สำหรับ Pie Chart

@@ -124,7 +124,11 @@ def bar_interview_round(_):
         yaxis_title="Number of participant",
         barmode='stack',  # ตั้งค่าให้เป็น stacked bar
         legend_title="Level",
-        legend_traceorder="reversed"  # กลับลำดับใน legend
+        legend_traceorder="reversed",  # กลับลำดับใน legend
+                font=dict(
+            family="Noto Sans Thai",
+            size=16
+                )
     )
 
     # เรียงลำดับ x-axis และ legend ให้ตรงกับ level_order
