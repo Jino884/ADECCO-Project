@@ -3,7 +3,6 @@ from dash import Dash, html, dcc, Input, Output
 
 # สร้างแอปและเปิดใช้งานระบบ multi-page ด้วย Dash Pages
 app = Dash(__name__, use_pages=True)
-server = app.server
 
 links = {
     '/w1p1': '1',
@@ -13,10 +12,17 @@ links = {
     '/w1p3-p2': '5'
 }
 
-# Layout หลักของแอป
 app.layout = html.Div(
-    style={'backgroundColor': '#f5f5f5', 'padding': '2px'},
+    style={
+        'backgroundColor': '#f5f5f5', 
+        'padding': '2px', 
+        'fontFamily': 'Noto Sans Thai, sans-serif'  # กำหนดฟอนต์แบบ global
+    },
     children=[
+        html.Link(
+            href='https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap',
+            rel='stylesheet'
+        ),
         dcc.Location(id='url', refresh=False),  # เพิ่ม component dcc.Location เพื่อติดตาม URL
 
         # Header สีดำพร้อมโลโก้
